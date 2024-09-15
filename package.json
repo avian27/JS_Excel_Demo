@@ -1,0 +1,19 @@
+{
+  "name": "js_excel_demo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git remote add origin https://github.com/avian27/JS_Excel_Demo.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "xlsx": "^0.18.5"
+  }
+}
