@@ -2,8 +2,8 @@ import pkg from 'xlsx';
 const { readFile, utils, writeFile } = pkg
 // Helper function to split text by numbered statements (e.g., 1., 2., 10.)
 
-const userEmail = 'avinash<avinashchauhan@gofynd.com>';
-const path = `CatalogCloud\\Quality`;
+const userEmail = 'Avinash Chauhan <avinashchauhan@gofynd.com>';
+const path = `CatalogCloud`;
 
 // Usage example
 const inputFilePath = 'excelFiles/ADO Test.xlsx';   // Input Excel file path
@@ -56,22 +56,24 @@ function readAndModifyExcel(inputFilePath, outputFilePath, columnsToModify) {
 function splitNumberedStatements(text) {
     const result = [];
     let currentStatement = '';
-    let index = 1;
+    let regex = /^\d+\.\s/;  // Looks for numbers followed by a period and a space
 
-    for (let i = 0; i < text.length; i++) {
-        const match = text.slice(i).match(new RegExp(`^${index}\\.\\s`));  // Look for "1. ", "2. ", etc.
-        if (match) {
+    // Split the text by newlines or similar breaks
+    let lines = text.split(/\r?\n/);
+
+    for (let line of lines) {
+        // If the line starts with a numbered statement (e.g., "1. ")
+        if (regex.test(line.trim())) {
             if (currentStatement.trim()) {
                 result.push(currentStatement.trim());
             }
-            currentStatement = match[0];
-            i += match[0].length - 1;
-            index++;
+            currentStatement = line.trim(); // Start a new statement
         } else {
-            currentStatement += text[i];
+            currentStatement += ' ' + line.trim(); // Append to the current statement
         }
     }
 
+    // Push the last statement if any
     if (currentStatement.trim()) {
         result.push(currentStatement.trim());
     }
@@ -96,7 +98,7 @@ function mergeColumnData(originalRow, columnSplits, columnIndices) {
                     newRow[1] = i === 0 ? `Test Case` : null;
                     newRow[6] = i === 0 ? path : null;
                     newRow[7] = i === 0 ? userEmail : null;
-                    newRow[8] = i === 0 ? 'New' : null;
+                    newRow[8] = i === 0 ? 'Design' : null;
                 }
             }
         });
